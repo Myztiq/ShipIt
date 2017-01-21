@@ -1,2 +1,0 @@
-# ShipIt
-Wave Ship Game
