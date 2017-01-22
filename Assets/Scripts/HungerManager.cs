@@ -6,9 +6,11 @@ using UnityEngine.UI;
 public class HungerManager : MonoBehaviour
 {
     public float hungerTickSeconds = 15f;
+    public int consumeUIDurationSeconds = 3;
     public Slider hungerSlider;
     public Image hungerSliderFillImage;
     public Text countText;
+    public GameObject consumeUI;
     public BoatCargo boatCargo;
     public GameManager gameManager;
 
@@ -47,6 +49,8 @@ public class HungerManager : MonoBehaviour
             Debug.Log ("Time to eat");
             tick = currentTick;
             boatCargo.ConsumeCargo ();
+            consumeUI.SetActive (true);
+            StartCoroutine (HideConsumeUIWithDelay());
         }
     }
 
@@ -71,5 +75,11 @@ public class HungerManager : MonoBehaviour
     void UpdateCountUI (int count)
     {
         countText.text = "x" + count;
+    }
+
+    IEnumerator HideConsumeUIWithDelay ()
+    {
+        yield return new WaitForSeconds (consumeUIDurationSeconds);
+        consumeUI.SetActive (false);
     }
 }

@@ -20,12 +20,12 @@ public class WaveTracker : MonoBehaviour {
 		for(var i = 0; i < ages.Count; i++)
 		{	
 			models[i].transform.localScale += new Vector3(10f, 10f, -1/10f);
-			models[i].GetComponent<Renderer>().material.color -= new Color(0f, 0f, 0f, .001f);
+			models[i].GetComponent<Renderer>().material.color -= new Color(0f, 0f, 0f, .025f);
 			ages[i]++;
 		}
 		for(int i = emanators.Count -1; i >= 0; i--)
 		{
-			if(ages[i] == 1000)
+			if(ages[i] == 200)
 			{
 				Destroy(models[i]);
 				models.RemoveAt(i);

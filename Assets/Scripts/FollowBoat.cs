@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraManager : MonoBehaviour
+public class FollowBoat : MonoBehaviour
 {
     public GameObject boat;
 
