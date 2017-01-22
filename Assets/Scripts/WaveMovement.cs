@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class WaveMovement : MonoBehaviour {
 
-    public WaveTracker wt;
-
     void Update ()
     {
         RaycastHit hit;
@@ -14,8 +12,7 @@ public class WaveMovement : MonoBehaviour {
         {
             if(Input.GetMouseButtonDown(0))
             {
-                Debug.Log("click");
-                wt.AddWave(new Vector3(hit.point.x, 0, hit.point.z));
+                WaveTracker.Instance.AddWave(new Vector3(hit.point.x, 0, hit.point.z));
             }
         }
     }

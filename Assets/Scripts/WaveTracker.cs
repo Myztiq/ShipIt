@@ -2,18 +2,20 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaveTracker : MonoBehaviour {
+public class WaveTracker : Singleton<WaveTracker> {
 	public GameObject prefab;
-	public GameObject water;
-	public List<GameObject> models;
+	private List<GameObject> models;
 	private List<Vector3> emanators;
 	private List<int> ages;
-	// Use this for initialization
-	void Start () {
+
+	protected WaveTracker() {}
+
+	void Start() {
 		models = new List<GameObject>();
 		emanators = new List<Vector3>();
 		ages = new List<int>();
 	}
+	// Use this for initialization
 	
 	// Update is called once per frame
 	void Update () {
@@ -35,8 +37,7 @@ public class WaveTracker : MonoBehaviour {
 		}
 	}
 	public void AddWave(Vector3 emanator) {
-        Debug.Log ("Adding wave");
-        GameObject model = Object.Instantiate(prefab, water.transform);
+        GameObject model = Instantiate(prefab);
         model.transform.position = emanator;
         model.transform.localScale = new Vector3(100, 100, 100);
         models.Add(model);

@@ -3,11 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class Boat : MonoBehaviour {
-    public WaveTracker wt;
 	public float impactStrength = 20f;
-
 	private Rigidbody rbody;
 	private BoatCargo boatCargo;
+	public float maxSpeed = 10f;
 
 	// Use this for initialization
 	void Start () {
@@ -17,10 +16,10 @@ public class Boat : MonoBehaviour {
 
     // Update is called once per frame
     void Update () {
-        for(int i = 0; i < wt.GetNumWaves(); i++)
+        for(int i = 0; i < WaveTracker.Instance.GetNumWaves(); i++)
         {
-            Vector3 origin = wt.GetWave(i);
-            int age = wt.GetAge(i);
+            Vector3 origin = WaveTracker.Instance.GetWave(i);
+            int age = WaveTracker.Instance.GetAge(i);
             CheckWaveIntersection(origin, (float)age);
         }
 
@@ -29,7 +28,7 @@ public class Boat : MonoBehaviour {
 
 	void SetFacing ()
 	{
-		transform.right = -rbody.velocity;
+		transform.right = -new Vector3(rbody.velocity.x, 0, rbody.velocity.z);
 	}
 
     void CheckWaveIntersection (Vector3 origin, float t) {
@@ -59,4 +58,11 @@ public class Boat : MonoBehaviour {
 			}            
         }
     }
+
+	void FixedUpdate () {
+		if(rbody.velocity.magnitude > maxSpeed)
+		{
+			rbody.velocity = rbody.velocity.normalized * maxSpeed;
+		}
+	}
 }
