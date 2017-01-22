@@ -90,7 +90,7 @@ Material:
       second: 72.72728
     - first:
         name: _Shininess
-      second: 22
+      second: 86
     m_Colors:
     - first:
         name: _AnimationDirection

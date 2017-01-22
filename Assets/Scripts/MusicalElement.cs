@@ -4,32 +4,32 @@ using UnityEngine;
 
 public class MusicalElement : MonoBehaviour {
 	private AudioSource music;
-	public float bpm = 156.0F;
+	private WaveTracker waveTracker;
+
+	public float bpm = 159.0F;
 	private float initDelay = 2;
 	private float totalLoopTime = 10;
 	private float gameHeight = 100;
 	private float nextEventTime;
-	private float timeLeft;
 	private float soundInterval;
 
 	void Start () {
+		waveTracker = GameObject.Find ("WaveTracker").GetComponent<WaveTracker>();
+
 		music = GetComponent <AudioSource> ();
-		timeLeft = ((gameHeight - transform.position.z) / gameHeight) * totalLoopTime + initDelay;
+		float timeLeft = ((gameHeight - transform.position.z) / gameHeight) * totalLoopTime + initDelay;
+		InvokeRepeating("playSound", timeLeft, totalLoopTime);
 	}
 
 	void playSound() {
-		nextEventTime = Mathf.Ceil ((float)AudioSettings.dspTime) - (float)AudioSettings.dspTime;
-		nextEventTime += 60.0F / bpm;
-		WaveTracker.Instance.AddWave(new Vector3(transform.position.x, 0, transform.position.z));
-		music.PlayScheduled (nextEventTime);
-	}
+		// When the next sound should be played
+		nextEventTime = (float) AudioSettings.dspTime - (float) AudioSettings.dspTime % (60F / bpm) + (60F / bpm);
 
-	void LateUpdate ()
-	{
-		timeLeft -= Time.deltaTime;
-		if ( timeLeft < 0 ) {
-			playSound ();
-			timeLeft = totalLoopTime;
-		}
+
+		// How long until the next sound
+		nextEventTime = nextEventTime - (float) AudioSettings.dspTime;
+
+		waveTracker.AddWave(new Vector3(transform.position.x, 0, transform.position.z));
+		music.PlayScheduled (nextEventTime);
 	}
 }

@@ -2,13 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class WaveTracker : Singleton<WaveTracker> {
+public class WaveTracker : MonoBehaviour {
 	public GameObject prefab;
 	private List<GameObject> models;
 	private List<Vector3> emanators;
 	private List<int> ages;
-
-	protected WaveTracker() {}
 
 	void Start() {
 		models = new List<GameObject>();

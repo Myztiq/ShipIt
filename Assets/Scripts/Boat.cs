@@ -2,24 +2,32 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+public delegate void BoatCollidedDelegate();
+
 public class Boat : MonoBehaviour {
 	public float impactStrength = 20f;
+
+    public event BoatCollidedDelegate BoatCollidedEvent;
+
 	private Rigidbody rbody;
 	private BoatCargo boatCargo;
-	public float maxSpeed = 10f;
+	private float maxSpeed = 10f;
+
+	private WaveTracker wt;
 
 	// Use this for initialization
 	void Start () {
 		rbody = GetComponent<Rigidbody>();
 		boatCargo = GetComponent<BoatCargo> ();
+		wt = GameObject.Find ("WaveTracker").GetComponent<WaveTracker> ();
 	}
 
     // Update is called once per frame
     void Update () {
-        for(int i = 0; i < WaveTracker.Instance.GetNumWaves(); i++)
+        for(int i = 0; i < wt.GetNumWaves(); i++)
         {
-            Vector3 origin = WaveTracker.Instance.GetWave(i);
-            int age = WaveTracker.Instance.GetAge(i);
+            Vector3 origin = wt.GetWave(i);
+            int age = wt.GetAge(i);
             CheckWaveIntersection(origin, (float)age);
         }
 
@@ -46,6 +54,10 @@ public class Boat : MonoBehaviour {
 		if(other.CompareTag("Obstacle")) {
 			float velocity = colWithOther.relativeVelocity.magnitude;
 			boatCargo.DropCargo(other.transform.position, velocity);
+
+            if (BoatCollidedEvent != null) {
+                BoatCollidedEvent ();
+            }
 		}
 	}
 
@@ -58,8 +70,8 @@ public class Boat : MonoBehaviour {
 			}            
         }
     }
-
-	void FixedUpdate () {
+	void FixedUpdate()
+	{
 		if(rbody.velocity.magnitude > maxSpeed)
 		{
 			rbody.velocity = rbody.velocity.normalized * maxSpeed;

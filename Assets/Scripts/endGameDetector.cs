@@ -3,19 +3,13 @@ using System.Collections.Generic;
 using UnityEngine.UI;
 using UnityEngine;
 
-public class endGameDetector : MonoBehaviour {
+public class EndGameDetector : MonoBehaviour {
 
-	public Text winText;
-	public GameManager gameManager;
-
-	void Start () {
-		winText.text = "";
-	}
+    public GameManager gameManager;
 
 	void OnTriggerEnter(Collider other) {
 		if (other.gameObject.CompareTag ("Boat")) {
-			other.gameObject.SetActive(false);
-			winText.text = "You Win! Points: " + gameManager.PointsString() ;
+            gameManager.EndGameWithWin ();
 		}
 	}
 }

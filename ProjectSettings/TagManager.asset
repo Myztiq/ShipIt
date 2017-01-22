@@ -9,6 +9,7 @@ TagManager:
   - SoundBar
   - Obstacle
   - Water
+  - intro
   layers:
   - Default
   - TransparentFX

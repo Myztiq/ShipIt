@@ -3,6 +3,11 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class WaveMovement : MonoBehaviour {
+	private WaveTracker wt;
+
+	void Start(){
+		wt = GameObject.Find ("WaveTracker").GetComponent<WaveTracker>();
+	}
 
     void Update ()
     {
@@ -12,7 +17,7 @@ public class WaveMovement : MonoBehaviour {
         {
             if(Input.GetMouseButtonDown(0))
             {
-                WaveTracker.Instance.AddWave(new Vector3(hit.point.x, 0, hit.point.z));
+                wt.AddWave(new Vector3(hit.point.x, 0, hit.point.z));
             }
         }
     }
